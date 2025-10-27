@@ -2,10 +2,16 @@
 
 import React, { useState } from "react";
 import { Wallet, Shield, FileText, HelpCircle, Clipboard } from "lucide-react";
+import { generateMnemonic } from "bip39";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function BeldexWalletHome() {
   const [darkMode, setDarkMode] = useState(true);
-  const [currentView, setCurrentView] = useState("home"); // 'home', 'recovery-seed', 'address-keys'
+  const [currentView, setCurrentView] = useState("home");
+  const [mnemonic, setMnemonic] = useState<string[]>([]);
+  const [verifyIndices, setVerifyIndices] = useState<number[]>([]);
+  const [verifyInputs, setVerifyInputs] = useState<string[]>(["", "", ""]);
 
   return (
     <div
@@ -22,10 +28,15 @@ export default function BeldexWalletHome() {
         {/* Logo */}
         <div className="p-6 border-b border-gray-700">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
-              <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
-                <span className="text-green-500 font-bold text-sm">B</span>
-              </div>
+            <div className="w-10 h-10 flex items-center justify-center">
+              <Image
+                src="/brand/beldex.svg"
+                alt="Beldex Logo"
+                width={40}
+                height={40}
+                className="rounded-lg"
+                priority
+              />
             </div>
             <div>
               <h1
@@ -48,7 +59,8 @@ export default function BeldexWalletHome() {
 
         {/* Navigation */}
         <nav className="flex-1 py-6">
-          <button
+          <Link
+            href="/"
             className={`w-full flex items-center gap-3 px-6 py-3 ${
               darkMode
                 ? "text-gray-300 hover:bg-gray-700"
@@ -57,8 +69,10 @@ export default function BeldexWalletHome() {
           >
             <Wallet size={20} />
             <span>Wallet</span>
-          </button>
-          <button
+          </Link>
+
+          <Link
+            href="/privacy"
             className={`w-full flex items-center gap-3 px-6 py-3 ${
               darkMode
                 ? "text-gray-300 hover:bg-gray-700"
@@ -67,8 +81,10 @@ export default function BeldexWalletHome() {
           >
             <Shield size={20} />
             <span>Privacy</span>
-          </button>
-          <button
+          </Link>
+
+          <Link
+            href="/terms"
             className={`w-full flex items-center gap-3 px-6 py-3 ${
               darkMode
                 ? "text-gray-300 hover:bg-gray-700"
@@ -77,8 +93,10 @@ export default function BeldexWalletHome() {
           >
             <FileText size={20} />
             <span>Terms</span>
-          </button>
-          <button
+          </Link>
+
+          <Link
+            href="/support"
             className={`w-full flex items-center gap-3 px-6 py-3 ${
               darkMode
                 ? "text-gray-300 hover:bg-gray-700"
@@ -87,9 +105,8 @@ export default function BeldexWalletHome() {
           >
             <HelpCircle size={20} />
             <span>Support</span>
-          </button>
+          </Link>
         </nav>
-
         {/* Dark Mode Toggle */}
         <div className="p-6 border-t border-gray-700">
           <div className="flex items-center justify-between">
@@ -139,9 +156,16 @@ export default function BeldexWalletHome() {
             <div className="max-w-4xl w-full text-center">
               {/* Logo */}
               <div className="flex justify-center mb-8">
-                <div className="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center shadow-lg shadow-green-500/50">
-                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
-                    <span className="text-green-500 font-bold text-2xl">B</span>
+                <div className="flex justify-center mb-8">
+                  <div className="w-28 h-28 flex items-center justify-center">
+                    <Image
+                      src="/brand/beldex.svg"
+                      alt="Beldex Logo"
+                      width={112}
+                      height={112}
+                      priority
+                      className="drop-shadow-lg"
+                    />
                   </div>
                 </div>
               </div>
@@ -156,221 +180,15 @@ export default function BeldexWalletHome() {
               </h1>
 
               {/* Illustration Area */}
-              <div className="mb-12 relative">
-                <svg viewBox="0 0 800 300" className="w-full h-auto">
-                  {/* Dashed connecting lines */}
-                  <path
-                    d="M 200 150 Q 300 100, 400 150 Q 500 200, 600 150"
-                    fill="none"
-                    stroke={darkMode ? "#4B5563" : "#D1D5DB"}
-                    strokeWidth="2"
-                    strokeDasharray="5,5"
-                  />
-
-                  {/* Left person */}
-                  <g transform="translate(120, 120)">
-                    <circle cx="20" cy="15" r="15" fill="#6B7280" />
-                    <rect
-                      x="5"
-                      y="35"
-                      width="30"
-                      height="50"
-                      rx="5"
-                      fill="#6B7280"
-                    />
-                    <rect
-                      x="0"
-                      y="45"
-                      width="10"
-                      height="30"
-                      rx="3"
-                      fill="#6B7280"
-                    />
-                  </g>
-
-                  {/* Left phone with wallet */}
-                  <g transform="translate(230, 80)">
-                    <rect
-                      x="0"
-                      y="0"
-                      width="100"
-                      height="160"
-                      rx="10"
-                      fill="#4B5563"
-                    />
-                    <rect
-                      x="10"
-                      y="15"
-                      width="80"
-                      height="5"
-                      rx="2"
-                      fill="#6B7280"
-                    />
-                    <rect
-                      x="20"
-                      y="40"
-                      width="60"
-                      height="80"
-                      rx="8"
-                      fill="#374151"
-                    />
-                    <circle cx="50" cy="70" r="15" fill="#E5E7EB" />
-                    <text
-                      x="50"
-                      y="110"
-                      textAnchor="middle"
-                      fill="#9CA3AF"
-                      fontSize="10"
-                    >
-                      TRANSFER
-                    </text>
-                  </g>
-
-                  {/* Shield icon */}
-                  <g transform="translate(390, 140)">
-                    <path
-                      d="M 10 0 L 20 5 L 20 20 L 10 25 L 0 20 L 0 5 Z"
-                      fill="#4B5563"
-                    />
-                  </g>
-
-                  {/* Broken chain/link */}
-                  <g transform="translate(430, 130)">
-                    <ellipse
-                      cx="15"
-                      cy="15"
-                      rx="12"
-                      ry="8"
-                      fill="none"
-                      stroke="#6B7280"
-                      strokeWidth="3"
-                    />
-                    <ellipse
-                      cx="35"
-                      cy="15"
-                      rx="12"
-                      ry="8"
-                      fill="none"
-                      stroke="#6B7280"
-                      strokeWidth="3"
-                    />
-                    <line
-                      x1="22"
-                      y1="10"
-                      x2="28"
-                      y2="5"
-                      stroke="#6B7280"
-                      strokeWidth="3"
-                    />
-                    <line
-                      x1="22"
-                      y1="20"
-                      x2="28"
-                      y2="25"
-                      stroke="#6B7280"
-                      strokeWidth="3"
-                    />
-                  </g>
-
-                  {/* Right phone with logo */}
-                  <g transform="translate(470, 80)">
-                    <rect
-                      x="0"
-                      y="0"
-                      width="100"
-                      height="160"
-                      rx="10"
-                      fill="#4B5563"
-                    />
-                    <rect
-                      x="10"
-                      y="15"
-                      width="80"
-                      height="5"
-                      rx="2"
-                      fill="#6B7280"
-                    />
-                    <circle cx="50" cy="80" r="20" fill="#10B981" />
-                    <circle cx="50" cy="80" r="15" fill="white" />
-                    <text
-                      x="50"
-                      y="85"
-                      textAnchor="middle"
-                      fill="#10B981"
-                      fontSize="14"
-                      fontWeight="bold"
-                    >
-                      B
-                    </text>
-                    <circle cx="50" cy="130" r="8" fill="#10B981" />
-                    <path
-                      d="M 47 130 L 49 132 L 54 127"
-                      fill="none"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                  </g>
-
-                  {/* Right person */}
-                  <g transform="translate(640, 100)">
-                    <circle cx="20" cy="15" r="15" fill="#D97706" />
-                    <rect
-                      x="5"
-                      y="35"
-                      width="30"
-                      height="50"
-                      rx="5"
-                      fill="#6B7280"
-                    />
-                    <rect
-                      x="30"
-                      y="45"
-                      width="10"
-                      height="30"
-                      rx="3"
-                      fill="#6B7280"
-                    />
-                  </g>
-
-                  {/* Lock icons */}
-                  <g transform="translate(300, 180)">
-                    <rect
-                      x="0"
-                      y="5"
-                      width="8"
-                      height="8"
-                      rx="1"
-                      fill="#4B5563"
-                    />
-                    <path
-                      d="M 1 5 L 1 3 Q 1 0, 4 0 Q 7 0, 7 3 L 7 5"
-                      fill="none"
-                      stroke="#4B5563"
-                      strokeWidth="1.5"
-                    />
-                  </g>
-
-                  {/* Paper plane */}
-                  <g transform="translate(440, 60)">
-                    <path d="M 0 10 L 25 0 L 10 25 L 8 12 Z" fill="#9CA3AF" />
-                  </g>
-
-                  {/* Beldex logo circle (bottom right) */}
-                  <g transform="translate(720, 240)">
-                    <circle cx="25" cy="25" r="25" fill="#3B82F6" />
-                    <circle cx="25" cy="25" r="18" fill="white" />
-                    <text
-                      x="25"
-                      y="30"
-                      textAnchor="middle"
-                      fill="#3B82F6"
-                      fontSize="16"
-                      fontWeight="bold"
-                    >
-                      B
-                    </text>
-                  </g>
-                </svg>
+              <div className="mb-12 flex justify-center">
+                <Image
+                  src="/brand/beldex.png"
+                  alt="Beldex Wallet Illustration"
+                  width={600}
+                  height={300}
+                  className="object-contain rounded-lg shadow-md"
+                  priority
+                />
               </div>
 
               {/* Welcome Text */}
@@ -390,8 +208,207 @@ export default function BeldexWalletHome() {
                 >
                   Use Existing Wallet
                 </button>
-                <button className="px-8 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors">
+                <button
+                  onClick={() => setCurrentView("new-wallet-warning")}
+                  className="px-8 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors"
+                >
                   Create New Wallet
+                </button>
+              </div>
+            </div>
+          )}
+
+          {currentView === "new-wallet-warning" && (
+            <div className="max-w-xl w-full text-center">
+              <h1
+                className={`text-3xl font-bold mb-6 ${
+                  darkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
+                Important Security Notice
+              </h1>
+
+              <p
+                className={`${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                } mb-4`}
+              >
+                Your recovery phrase is the only way to restore your wallet.
+              </p>
+              <ul
+                className={`text-left mb-8 space-y-3 ${
+                  darkMode ? "text-gray-400" : "text-gray-600"
+                }`}
+              >
+                <li>• Write it down and store in a secure place.</li>
+                <li>• Never share with anyone — including apps or support.</li>
+                <li>• Anyone with your phrase can steal your funds.</li>
+              </ul>
+
+              <div className="flex gap-4 justify-center">
+                <button
+                  onClick={() => setCurrentView("home")}
+                  className={`px-8 py-3 rounded-lg font-medium ${
+                    darkMode
+                      ? "bg-gray-700 text-white"
+                      : "bg-gray-200 text-gray-900"
+                  }`}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    const phrase = generateMnemonic().split(" ");
+                    setMnemonic(phrase);
+                    setCurrentView("new-wallet-seed");
+                  }}
+                  className="px-8 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg"
+                >
+                  I Understand
+                </button>
+              </div>
+            </div>
+          )}
+
+          {currentView === "new-wallet-seed" && (
+            <div className="max-w-xl w-full text-center">
+              <h1
+                className={`text-3xl font-bold mb-6 ${
+                  darkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
+                Your Recovery Phrase
+              </h1>
+
+              <div
+                className={`grid grid-cols-3 gap-3 p-6 rounded-lg mb-8 ${
+                  darkMode
+                    ? "bg-gray-800 text-gray-200"
+                    : "bg-gray-100 text-gray-900"
+                }`}
+              >
+                {mnemonic.map((word, i) => (
+                  <div key={i} className="text-sm font-medium">
+                    {i + 1}. {word}
+                  </div>
+                ))}
+              </div>
+
+              <p
+                className={`${
+                  darkMode ? "text-gray-400" : "text-gray-600"
+                } mb-8`}
+              >
+                Please write down these words in order. You will need them to
+                restore your wallet.
+              </p>
+
+              <div className="flex gap-4 justify-center">
+                <button
+                  onClick={() => setCurrentView("new-wallet-warning")}
+                  className={`px-8 py-3 rounded-lg font-medium ${
+                    darkMode
+                      ? "bg-gray-700 text-white"
+                      : "bg-gray-200 text-gray-900"
+                  }`}
+                >
+                  Back
+                </button>
+                <button
+                  onClick={() => {
+                    const randomIndices = Array.from(
+                      new Set(
+                        [...Array(3)].map(() =>
+                          Math.floor(Math.random() * mnemonic.length)
+                        )
+                      )
+                    );
+
+                    setVerifyIndices(randomIndices);
+                    setCurrentView("new-wallet-verify");
+                  }}
+                  className="px-8 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg"
+                >
+                  Verify
+                </button>
+              </div>
+            </div>
+          )}
+
+          {currentView === "new-wallet-verify" && (
+            <div className="max-w-xl w-full text-center">
+              <h1
+                className={`text-3xl font-bold mb-6 ${
+                  darkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
+                Verify Your Recovery Phrase
+              </h1>
+
+              <p
+                className={`${
+                  darkMode ? "text-gray-400" : "text-gray-600"
+                } mb-6`}
+              >
+                Enter the following words to confirm you backed them up
+                correctly:
+              </p>
+
+              <div className="space-y-6">
+                {verifyIndices.map((index, i) => (
+                  <div key={index}>
+                    <label
+                      className={`${
+                        darkMode ? "text-gray-200" : "text-gray-900"
+                      } text-sm font-medium`}
+                    >
+                      Word #{index + 1}
+                    </label>
+                    <input
+                      type="text"
+                      className={`w-full mt-2 px-4 py-3 rounded-lg ${
+                        darkMode
+                          ? "bg-gray-700 text-gray-200 placeholder-gray-500"
+                          : "bg-gray-100 text-gray-900 placeholder-gray-400"
+                      } border focus:outline-none focus:ring-2 focus:ring-green-500`}
+                      placeholder={`Enter word #${index + 1}`}
+                      value={verifyInputs[i]}
+                      onChange={(e) => {
+                        const newInputs = [...verifyInputs];
+                        newInputs[i] = e.target.value.toLowerCase().trim();
+                        setVerifyInputs(newInputs);
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex gap-4 justify-center mt-10">
+                <button
+                  onClick={() => setCurrentView("new-wallet-seed")}
+                  className={`px-8 py-3 rounded-lg font-medium ${
+                    darkMode
+                      ? "bg-gray-700 text-white"
+                      : "bg-gray-200 text-gray-900"
+                  }`}
+                >
+                  Back
+                </button>
+
+                <button
+                  onClick={() => {
+                    const valid = verifyIndices.every(
+                      (idx, i) => mnemonic[idx] === verifyInputs[i]
+                    );
+                    if (!valid)
+                      return alert("Incorrect words. Please try again.");
+
+                    // ✅ Verification Passed
+                    window.location.href = "/dashboard";
+                  }}
+                  className="px-8 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg"
+                >
+                  Confirm
                 </button>
               </div>
             </div>

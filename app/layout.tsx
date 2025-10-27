@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Inter } from "next/font/google";
+import Sidebar from "./components/Sidebar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,6 +46,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${satoshi.variable} ${inter.variable} antialiased`}
       >
+        {/* <Sidebar /> */}
         <ToastContainer
           autoClose={2000}
           hideProgressBar={true}
